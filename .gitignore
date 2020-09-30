@@ -348,3 +348,11 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/SoftwareQuiz/Properties/Settings.settings
+/SoftwareQuiz/Properties/Settings.Designer.cs
+/SoftwareQuiz/Properties/AssemblyInfo.cs
+/SoftwareQuiz/NLog.config
+/SoftwareQuiz/NLog.xsd
+/SoftwareQuiz/Web.Release.config
+/SoftwareQuiz/Web.Debug.config
+/SoftwareQuiz/Web.config

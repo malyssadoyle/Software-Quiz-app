@@ -1,0 +1,113 @@
+﻿@model SoftwareQuiz.Models.Form
+@using Recaptcha.Web.Mvc;
+@using SoftwareQuiz.Models;
+@using FormHelper;
+
+@{
+    ViewBag.Title = "Software Development Career Interest Quiz";
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h1>@ViewBag.Title</h1>
+    @Html.ValidationSummary(true, "See error below:")
+
+    <div class="container personalInfoHdr">
+        <div class="row">
+            <div class="col-md-2 col-sm-12"></div>
+            <div class="col-md-10 col-sm-12">@Html.RquiredFieldIndicator() fields are required</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-12">@Html.LabelExFor(m => m.FirstName)</div>
+            <div class="col-md-10 col-sm-12">@Html.EditorFor(m => m.FirstName) @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger", style="float:right" })</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-12">@Html.LabelExFor(m => m.LastName)</div>
+            <div class="col-md-10 col-sm-12">@Html.EditorFor(m => m.LastName) @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger", style="float:right" })</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-12">@Html.LabelExFor(m => m.Email)</div>
+            <div class="col-md-10 col-sm-12">@Html.EditorFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", style="float:right" })</div>
+        </div>
+    </div>
+
+    <div class="container grid-striped">
+        <div class="row d-none d-lg-flex" style="background-color: #008b98; color: white; font-weight: 500;">
+            <div class="col-lg-5 col-md-12"></div>
+            <div class="col-lg-2 col-md-12">Strongly Agree</div>
+            <div class="col-lg-1 col-md-12">Agree</div>
+            <div class="col-lg-1 col-md-12">Neutral</div>
+            <div class="col-lg-1 col-md-12">Disagree</div>
+            <div class="col-lg-2 col-md-12">Strongly Disagree</div>
+        </div>
+
+        <div class="row" style="background-color: #a3afba;">
+            <div class="col-md-12" style="font-weight: 500;">Interests</div>
+        </div>
+
+        @for (int i = 0; i < Model.InterestQuestions.Count(); i++)
+        {
+            <div class="row">
+                <div class="col-lg-5 col-md-12">
+                    @Html.HiddenFor(m => m.InterestQuestions[i].Question)
+                    @Html.HiddenFor(m => m.InterestQuestions[i].Name)
+                    @Model.InterestQuestions[i].Question@Html.RquiredFieldIndicator()
+                    <span style="float: right; padding: 0 0 0 10px">@Html.ValidationMessageFor(m => m.InterestQuestions[i].Answer)</span>
+                </div>
+                <div class="col-lg-2 col-md-12 radioBtn">@Html.RadioButtonFor(m => m.InterestQuestions[i].Answer, "Strongly Agree") <span class="d-md-inline d-lg-none">Strongly Agree</span></div>
+                <div class="col-lg-1 col-md-12 radioBtn">@Html.RadioButtonFor(m => m.InterestQuestions[i].Answer, "Agree") <span class="d-md-inline d-lg-none">Agree</span></div>
+                <div class="col-lg-1 col-md-12 radioBtn">@Html.RadioButtonFor(m => m.InterestQuestions[i].Answer, "Neutral") <span class="d-md-inline d-lg-none">Neutral</span></div>
+                <div class="col-lg-1 col-md-12 radioBtn">@Html.RadioButtonFor(m => m.InterestQuestions[i].Answer, "Disagree") <span class="d-md-inline d-lg-none">Disagree</span></div>
+                <div class="col-lg-2 col-md-12 radioBtn">@Html.RadioButtonFor(m => m.InterestQuestions[i].Answer, "Strongly Disagree") <span class="d-md-inline d-lg-none">Strongly Disagree</span></div>
+            </div>
+        }
+    </div>
+
+    <div class="container">
+        <div class="row" style="background-color: #a3afba;">
+            <div class="col-md-12" style="font-weight: 500;">Kind of Program</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">@Html.LabelExFor(m => m.ProgramOfInterest) @Html.ValidationMessageFor(m => m.ProgramOfInterest, null, new {  style = "float: right" })</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.ProgramOfInterest, "2 years") I would like to get a two-year degree in software development.</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.ProgramOfInterest, "1 year") I would like to train for about a year in software development.</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.ProgramOfInterest, "3-6 months") I would like to train for 3-6 months in software development.</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">@Html.LabelExFor(m => m.SwitchTechFields) @Html.ValidationMessageFor(m => m.SwitchTechFields, null, new { style = "float: right" })</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.SwitchTechFields, true) Yes</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.SwitchTechFields, false) No</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">@Html.LabelExFor(m => m.HighestEdLevel) @Html.ValidationMessageFor(m => m.HighestEdLevel, null, new { style = "float: right" })</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.HighestEdLevel, "HS Diploma or GED") High school diploma or GED</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.HighestEdLevel, "Some College") Some college, but no degree</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.HighestEdLevel, "College Degree Non-Tech") College Degree in a non-technology field</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.HighestEdLevel, "College Degree Tech") College Degree in a technology-focused field</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row" style="background-color: #a3afba;">
+            <div class="col-md-12" style="font-weight: 500;">How Soon to Start</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">@Html.LabelExFor(m => m.StartNow) @Html.ValidationMessageFor(m => m.StartNow, null, new { style = "float: right" })</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.StartNow, true) Yes</div>
+            <div class="col-md-12">@Html.RadioButtonFor(m => m.StartNow, false) No</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            @Html.Recaptcha(theme: Recaptcha.Web.RecaptchaTheme.Clean)
+        </div>
+    </div>
+
+    <div class="form-line">
+        <button id="submit" class="Button" type="submit" tabindex="1000">Submit</button>
+    </div>
+    <div id="processing">Processing...</div>
+}
+
